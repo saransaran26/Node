@@ -76,8 +76,7 @@ app.put('/student/:studentId/assignmentor/:mentorId',async(req,res)=>{
     }
     catch(err){
         res.status(400).send(err)
-    }
-    
+    } 
 })
 
 //show all students for particular mentor
