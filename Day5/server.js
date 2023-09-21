@@ -26,6 +26,25 @@ app.post('/mentor',async(req,res)=>{
     }
 })
 
+app.get('/mentor',async(req,res)=>{
+    try{
+        const mentor = await Mentor.find()
+        res.status(201).send(mentor)
+    }
+    catch(err){
+        res.status(400).send(err)
+    }
+})
+app.get('/student',async(req,res)=>{
+    try{
+        const student = await Student.find()
+        res.status(201).send(student)
+    }
+    catch(err){
+        res.status(400).send(err)
+    }
+})
+
 app.post('/student',async(req,res)=>{
     try{
         const student = new Student(req.body)
