@@ -29,23 +29,23 @@ function Register() {
         }
     }
   return (
-    <div>
-        <h1>Register</h1>
-        <form onSubmit={handleinputs}>
-            <div>
+    <div className='registerbody'>
+        <h1 className='mt-4'>Register</h1>
+        <form onSubmit={handleinputs} >
+            <div className='register mt-4'>
             <label htmlFor="username">Username : </label>
             <input type="text" id='username' name="username" onChange={handlechange} value={formdata.username} required
             
             />
             </div>
 
-            <div>
+            <div className='register mt-4'>
             <label htmlFor="password" >password : </label>
             <input type="text" id='password' name="password" onChange={handlechange} value={formdata.password} required 
             />
             </div>
-            <button type='submit' >Register</button>
-            <button onClick={handleloginpage}>Login in</button>
+            <button type='submit' className='mt-5 btn btn-primary me-5'>Register</button>
+            <button onClick={handleloginpage} className='mt-5 btn btn-dark'>Login in</button>
         </form>
     </div>
   )
