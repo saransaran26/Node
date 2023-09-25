@@ -16,6 +16,16 @@ mongoose.connect(DBURL,{})
 .then(()=>console.log("mongoDB is connected successfully"))
 .catch((err)=>console.log("could not connect to mongoDb on",err))
 
+app.get("/getitem",async(req,res)=>{
+    try{
+        const user = await usermodel.find()
+        res.send(user)
+    }
+    catch(err){
+        res.status(400).send(err)
+    }
+})
+
 app.post("/api/register",async(req,res)=>{
     const {username,password} = req.body;
 
