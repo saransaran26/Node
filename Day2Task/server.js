@@ -1,55 +1,92 @@
 const express = require("express")
 const bodyparser = require("body-parser")
+const mongoose = require("mongoose")
 
 const app = express()
 
-const newItem = [
-    {id:1,name:"saran",date:"21sept",starttime:"6am",endtime:"7pm"},
-    {id:2,name:"karthi",date:"10sept",starttime:"6.15am",endtime:"7.30pm"}
-]
+const DBURL = "mongodb+srv://saranchakravarthy26:guvi@b49tamil.zmmqlo1.mongodb.net/?retryWrites=true&w=majority";
+
+const bookingschema = mongoose.Schema({
+    id:String,
+    name:String,
+    date:String,
+    starttime:String,
+    endtime:String,
+})
+
+const Hotel = mongoose.model("Hotel",bookingschema)
+
+
+mongoose.connect(DBURL,{})
+.then(()=>console.log("MongoDB connected Succesfully")).catch((err)=>console.log("MongoDB is not Connected",err))
 
 app.use(bodyparser.json())
 
-app.get("/getitem",(req,res)=>{
-   
-    res.status(200).send(newItem)
+app.get("/getitem",async(req,res)=>{
+   try{
+    const hotel = await Hotel.find()
+    res.send(hotel)
+   }
+   catch(err){
+    res.status(400).send(err)
+   }
 })
 
-app.post("/postitem",(req,res)=>{
-    const item = req.body;
-    if(!item.name||!item.date||!item.starttime||!item.endtime){
-        res.status(400).send("item much have all items")
-    }
-    newItem.push(item)
-    res.status(200).send("item added successfully")
-})
-
-app.put("/putitem/:id",(req,res)=>{
-    
-        const index = parseInt(req.params.id)
-        const updateditem = req.body;
-        const findindex = newItem.findIndex((item)=>item.id === index)
-        if(findindex === -1){
-            return res.status(400).send("Item not found")
+app.get("/getitem/:id",async(req,res)=>{
+    try{
+        const hotel = await Hotel.findById(req.params.id)
+        if(hotel){
+            res.send(hotel)
         }
-        if(!updateditem.name){
-            return res.status(500).send("item name not found")
+        else{
+            res.status(404).send("Book Not Found")
         }
-        newItem[findindex].name = updateditem.name
-        res.status(201).send(`item updated in id : ${index}`)
-    
+    }
+    catch(err){
+        res.status(400).send(err)
+    }
 })
 
-app.delete("/deleteitem/:id",(req,res)=>{
-    
-    const index = parseInt(req.params.id)
-    const findindex = newItem.findIndex((item)=>item.id === index)
-    if(findindex === -1){
-        return res.status(400).send("Item not found")
+app.post("/postitem",async(req,res)=>{
+    const hotel = new Hotel(req.body)
+    try{
+        const savedhotel = await hotel.save()
+        res.send(savedhotel)
     }
-    newItem.splice(findindex,1)
-    res.status(201).send(`item updated in id : ${index}`)
+    catch(err){
+        res.status(400).send(err)
+    }
+})
 
+app.put("/putitem/:id",async(req,res)=>{
+    
+    try{
+        const hotel = await Hotel.findByIdAndUpdate(req.params.id,req.body,{new:true})
+        if(hotel){
+            res.send(hotel)
+        }
+        else{
+            res.status(400).send("Hotel Id not Found")
+        }
+    }
+    catch(err){
+        res.send(400).send(err)
+    }
+})
+
+app.delete("/deleteitem/:id",async(req,res)=>{
+    try{
+        const hotel = await Hotel.findByIdAndDelete(req.params.id)
+        if(hotel){
+            res.send(hotel)
+        }
+        else{
+            res.status(400).send("Hotel Id not Found")
+        }
+    }
+    catch(err){
+        res.send(400).send(err)
+    }
 })
 
 app.listen(4000,()=>{
