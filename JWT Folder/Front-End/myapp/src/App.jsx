@@ -21,11 +21,11 @@ function App() {
       <div className="app">
         <header>
         <h1 className='mt-5'>MERN JWT Authentication</h1>
-        {token && <button onClick={logout}>Logout</button>}
+        {token && <button onClick={logout} className='mt-4 btn btn-danger'>Logout</button>}
         </header>
         <main>
           <Routes>
-            <Route path='/register' Component={Register}></Route>
+            <Route path='/' Component={Register}></Route>
             <Route path='/login' element={<Login settoken={settoken}></Login>}></Route>
             <Route path='/protected' element={token ? <Protected></Protected> : <Navigate to='/login'></Navigate>}></Route>
           </Routes>

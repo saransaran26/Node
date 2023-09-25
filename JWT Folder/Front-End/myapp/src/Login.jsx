@@ -32,20 +32,20 @@ function Login({settoken}) {
         }
     }
   return (
-    <div>
-        <h1>Login</h1>
+    <div className='registerbody'>
+        <h1 className='mt-4'>Login</h1>
         <form onSubmit={handleinputs}>
-            <div>
+            <div className='register mt-4'>
             <label htmlFor="username">Username : </label>
             <input type="text" id='username' name="username" onChange={handlechange} value={formdata.username} />
             </div>
 
-            <div>
+            <div className='register mt-4'>
             <label htmlFor="password">password : </label>
-            <input type="text" id='password' name="password" onChange={handlechange} value={formdata.password} />
+            <input type="password" id='password' name="password" onChange={handlechange} value={formdata.password} />
             </div>
-            <button type='submit'>Login</button>
-            <button onClick={handlenewuser}>New User</button>
+            <button type='submit' className='mt-5 btn btn-primary me-5'>Login</button>
+            <button onClick={handlenewuser} className='mt-5 btn btn-dark'>New User</button>
         </form>
     </div>
   )

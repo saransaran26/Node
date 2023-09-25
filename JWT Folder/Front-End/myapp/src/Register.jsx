@@ -41,7 +41,7 @@ function Register() {
 
             <div className='register mt-4'>
             <label htmlFor="password" >password : </label>
-            <input type="text" id='password' name="password" onChange={handlechange} value={formdata.password} required 
+            <input type="password" id='password' name="password" onChange={handlechange} value={formdata.password} required 
             />
             </div>
             <button type='submit' className='mt-5 btn btn-primary me-5'>Register</button>
